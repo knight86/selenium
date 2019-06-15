@@ -7,77 +7,58 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+import pageObjects.LoginPage;
+import pageObjects.MainPage;
+
+
 public class MainMenuTest {
 
+	
 	WebDriver driver;
 
 	@Before
 	public void start() {
+		System.out.println("wewnątrz metody start - @before");
 		driver = Init.getDriver();
 	}
-	
+
+	@Test
+	public void topMenuTest() {
+		MainPage mp = new MainPage();
+		
+		String title = driver.getTitle();
+		System.out.println(title);
+		
+		mp.contactLinkClick();
+		mp.registerLinkClick();
+		mp.supportLinkClick();
+		mp.signOnLinkClick();
+		
+		title = driver.getTitle();
+		System.out.println(title);
+		
+		Init.sleep(1);
+	}
+
 	@Test
 	public void login() {
-		driver.findElement(By.linkText("SIGN-ON")).click();
-		driver.findElement(By.name("userName")).sendKeys("knight86");
-		driver.findElement(By.name("password")).sendKeys("stefan");
-		Init.sleep(2);
-		driver.findElement(By.name("login")).click();
-		Init.sleep(2);
+		String title = driver.getTitle();
+		System.out.println(title);
 		
-		String oneWayXpath = "/html/body/div/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[5]/td/form/table/tbody/tr[2]/td[2]/b/font/input[2]";
-		driver.findElement(By.xpath(oneWayXpath)).click();
-	
-	
-	WebElement passSelect = driver.findElement(By.name("passCount"));
-	Select pass = new Select(passSelect);
-	pass.selectByValue("2");
-	Init.sleep(1);
-	
-	WebElement fromSelect = driver.findElement(By.name("fromPort"));
-	Select from = new Select(fromSelect);
-	from.selectByValue("Frankfurt");
-	Init.sleep(1);
-	
-	WebElement fromMonth = driver.findElement(By.name("fromMonth"));
-	Select Month = new Select(fromMonth);
-	Month.selectByValue("9");
-	Init.sleep(1);
-	
-	WebElement fromDay = driver.findElement(By.name("fromDay"));
-	Select Day = new Select(fromDay);
-	Day.selectByValue("20");
-	Init.sleep(1);
-	
-	WebElement toPort = driver.findElement(By.name("toPort"));
-	Select Port = new Select(toPort);
-	Port.selectByValue("Zurich");
-	Init.sleep(1);
-	
-	WebElement toMonth = driver.findElement(By.name("toMonth"));
-	Select doMonth = new Select(toMonth);
-	doMonth.selectByValue("4");
-	Init.sleep(1);
-
-	WebElement toDay = driver.findElement(By.name("toDay"));
-	Select iDay = new Select(toDay);
-	iDay.selectByValue("13");
-	Init.sleep(1);
-	
-	String preferencesXpath = "/html/body/div/table/tbody/tr/td[2]/table/tbody/tr[4]/td/table/tbody/tr/td[2]/table/tbody/tr[5]/td/form/table/tbody/tr[9]/td[2]/font/font/input[1]";
-	driver.findElement(By.xpath(preferencesXpath)).click();
-	Init.sleep(1);
-	
-	WebElement toAirlane = driver.findElement(By.name("airline"));
-	Select Airlane = new Select(toAirlane);
-	Airlane.selectByVisibleText("Blue Skies Airlines");
-	Init.sleep(1);
-	
-	driver.findElement(By.name("findFlights")).click();
-	Init.sleep(1);
-	
+		LoginPage lp = new LoginPage();
+		MainPage mp = new MainPage();
+		
+		mp.signOnLinkClick();
+		lp.loginAs("knight86", "stefan");
+		
+		title = driver.getTitle();
+		System.out.println(title);
+		
+		Assert.assertTrue("page title is wrong", title.equals("Find a Flight: Mercury Tours:"));
+		
+		Init.sleep(1);
 	}
-	
+
 	@After
 	public void quit() {
 		Init.close();
