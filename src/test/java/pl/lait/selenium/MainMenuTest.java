@@ -28,7 +28,7 @@ public class MainMenuTest {
 		driver = Init.getDriver();
 	}
 
-	@Ignore
+	//@Ignore
 	@Test
 	public void topMenuTest() {
 		MainPage mp = new MainPage();
@@ -43,7 +43,7 @@ public class MainMenuTest {
 		
 		title = driver.getTitle();
 		System.out.println(title);
-		
+		Init.printScr(driver, "mainMenu", "menuOnly");
 		Init.sleep(1);
 	}
 	
@@ -65,6 +65,7 @@ public class MainMenuTest {
 	}
 
 	
+	@Ignore
 	@Test
 	public void reservationTest() {
 		mp.signOnLinkClick();
